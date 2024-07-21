@@ -1,6 +1,11 @@
 package com.szalay.solitaire.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.Stack;
 import java.util.logging.Logger;
 
 public class Game {
@@ -192,6 +197,7 @@ public class Game {
     public boolean isStarted() {
         return started;
     }
+
     public void cardClicked(Card card) {
         LOGGER.info("Card clicked: " + card);
 
