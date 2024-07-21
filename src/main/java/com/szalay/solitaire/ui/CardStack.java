@@ -74,16 +74,20 @@ final class CardStack extends VBox {
         }
 
         final Card last = cards.peek();
-        for (final Card card : cards) {
-            final boolean isLast = card == last;
-            if (!card.isHidden()) {
-                getChildren().add(new CardComponent(card, game, targetStackNumber == -1, isLast));
+        if (targetStackNumber < 1) {
+            for (final Card card : cards) {
+                final boolean isLast = card == last;
+                if (!card.isHidden()) {
+                    getChildren().add(new CardComponent(card, game, targetStackNumber == -1, isLast));
+                } else {
+                    final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/hidden.gif")));
+                    final ImageView hiddenImage = new ImageView(image);
+                    getChildren().add(hiddenImage);
+                }
             }
-            else {
-                final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/hidden.gif")));
-                final ImageView hiddenImage = new ImageView(image);
-                getChildren().add(hiddenImage);
-            }
+        }
+        else {
+            getChildren().add(new CardComponent(last, game, false, true));
         }
     }
 }
