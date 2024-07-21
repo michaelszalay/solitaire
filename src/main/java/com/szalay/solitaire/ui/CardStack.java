@@ -26,13 +26,16 @@ final class CardStack extends VBox {
         }
 
         if (cards.isEmpty()) {
-            if (!type.isTarget()) {
-                getChildren().add(new Label());
-                return;
+            final ImageView emptyStackComponent;
+            if (type.isTarget()) {
+                final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/back.gif")));
+                emptyStackComponent = new ImageView(image);
+            }
+            else {
+                final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/empty.png")));
+                emptyStackComponent = new ImageView(image);
             }
 
-            final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/back.gif")));
-            final ImageView emptyStackComponent = new ImageView(image);
             emptyStackComponent.setOnDragOver(event -> {
                 if (event.getDragboard().hasString()) {
                     event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
