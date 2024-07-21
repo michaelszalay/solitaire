@@ -22,6 +22,12 @@ final class ToolbarFactory {
         refreshButton.setOnAction(new RefreshAction(gameUI));
         toolBar.getItems().add(refreshButton);
 
+        final Button undoButton = new Button();
+        undoButton.setGraphic(createImage("undo.gif"));
+        undoButton.setTooltip(new Tooltip(TextUtil.getText("undoButton")));
+        undoButton.setOnAction(new UndoAction(gameUI));
+        toolBar.getItems().add(undoButton);
+
         return new VBox(toolBar);
     }
 

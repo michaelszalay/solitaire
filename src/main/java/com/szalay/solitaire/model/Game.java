@@ -21,20 +21,35 @@ public class Game {
     private static final int MAX_SELECTION_SIZE = 1;
 
     private Stack<Card> talon = new Stack<>();
-    private final Stack<Card> currentDrawn = new Stack<>();
+    private Stack<Card> currentDrawn = new Stack<>();
 
-    private final Stack<Card> targetStack1 = new Stack<>();
-    private final Stack<Card> targetStack2 = new Stack<>();
-    private final Stack<Card> targetStack3 = new Stack<>();
-    private final Stack<Card> targetStack4 = new Stack<>();
+    private Stack<Card> targetStack1 = new Stack<>();
+    private Stack<Card> targetStack2 = new Stack<>();
+    private Stack<Card> targetStack3 = new Stack<>();
+    private Stack<Card> targetStack4 = new Stack<>();
 
-    private final Stack<Card> playStack1 = new Stack<>();
-    private final Stack<Card> playStack2 = new Stack<>();
-    private final Stack<Card> playStack3 = new Stack<>();
-    private final Stack<Card> playStack4 = new Stack<>();
-    private final Stack<Card> playStack5 = new Stack<>();
-    private final Stack<Card> playStack6 = new Stack<>();
-    private final Stack<Card> playStack7 = new Stack<>();
+    private Stack<Card> playStack1 = new Stack<>();
+    private Stack<Card> playStack2 = new Stack<>();
+    private Stack<Card> playStack3 = new Stack<>();
+    private Stack<Card> playStack4 = new Stack<>();
+    private Stack<Card> playStack5 = new Stack<>();
+    private Stack<Card> playStack6 = new Stack<>();
+    private Stack<Card> playStack7 = new Stack<>();
+
+    private Stack<Card> talonLatestState = new Stack<>();
+    private Stack<Card> currentDrawnLatestState = new Stack<>();
+    private Stack<Card> targetStack1LatestState = new Stack<>();
+    private Stack<Card> targetStack2LatestState = new Stack<>();
+    private Stack<Card> targetStack3LatestState = new Stack<>();
+    private Stack<Card> targetStack4LatestState = new Stack<>();
+
+    private Stack<Card> playStack1LatestState = new Stack<>();
+    private Stack<Card> playStack2LatestState = new Stack<>();
+    private Stack<Card> playStack3LatestState = new Stack<>();
+    private Stack<Card> playStack4LatestState = new Stack<>();
+    private Stack<Card> playStack5LatestState = new Stack<>();
+    private Stack<Card> playStack6LatestState = new Stack<>();
+    private Stack<Card> playStack7LatestState = new Stack<>();
 
     private final Set<Card> allCards = new HashSet<>();
 
@@ -45,6 +60,39 @@ public class Game {
 
     public void addObserver(final GameObserver observer) {
         this.observers.add(observer);
+    }
+
+    private void saveState() {
+        talonLatestState = (Stack<Card>) talon.clone();
+        currentDrawnLatestState = (Stack<Card>) currentDrawn.clone();
+        targetStack1LatestState = (Stack<Card>) targetStack1.clone();
+        targetStack2LatestState = (Stack<Card>) targetStack2.clone();
+        targetStack3LatestState = (Stack<Card>) targetStack3.clone();
+        targetStack4LatestState = (Stack<Card>) targetStack4.clone();
+        playStack1LatestState = (Stack<Card>) playStack1.clone();
+        playStack2LatestState = (Stack<Card>) playStack2.clone();
+        playStack3LatestState = (Stack<Card>) playStack3.clone();
+        playStack4LatestState = (Stack<Card>) playStack4.clone();
+        playStack5LatestState = (Stack<Card>) playStack5.clone();
+        playStack6LatestState = (Stack<Card>) playStack6.clone();
+        playStack7LatestState = (Stack<Card>) playStack7.clone();
+    }
+
+    public void restoreLatestState() {
+        talon = (Stack<Card>) talonLatestState.clone();
+        currentDrawn = (Stack<Card>) currentDrawnLatestState.clone();
+        targetStack1 = (Stack<Card>) targetStack1LatestState.clone();
+        targetStack2 = (Stack<Card>) targetStack2LatestState.clone();
+        targetStack3 = (Stack<Card>) targetStack3LatestState.clone();
+        targetStack4 = (Stack<Card>) targetStack4LatestState.clone();
+        playStack1 = (Stack<Card>) playStack1LatestState.clone();
+        playStack2 = (Stack<Card>) playStack2LatestState.clone();
+        playStack3 = (Stack<Card>) playStack3LatestState.clone();
+        playStack4 = (Stack<Card>) playStack4LatestState.clone();
+        playStack5 = (Stack<Card>) playStack5LatestState.clone();
+        playStack6 = (Stack<Card>) playStack6LatestState.clone();
+        playStack7 = (Stack<Card>) playStack7LatestState.clone();
+        fireChange();
     }
 
     private void fireChange() {
@@ -66,6 +114,7 @@ public class Game {
     }
 
     public void startGame() {
+        saveState();
         allCards.clear();
 
         if (talon != null) {
@@ -199,6 +248,7 @@ public class Game {
     }
 
     public void cardClicked(Card card) {
+        saveState();
         LOGGER.info("Card clicked: " + card);
 
         final Stack<Card> sourceStack = getSourceStack(card);
@@ -378,6 +428,7 @@ public class Game {
 
 
     public void cardDroppedOn(Card sourceCard, Card targetCard) {
+        saveState();
         LOGGER.info("Card dropped on: " + sourceCard + ", " + targetCard);
 
         final Stack<Card> targetStack = getSourceStack(targetCard);
@@ -401,23 +452,26 @@ public class Game {
 
     public void cardDropOnTargetStack1(Card sourceCard) {
         LOGGER.info("Card dropped on target stack 1: " + sourceCard);
+        cardDroppedOn(sourceCard, targetStack1.peek());
     }
 
     public void cardDropOnTargetStack2(Card sourceCard) {
         LOGGER.info("Card dropped on target stack 2: " + sourceCard);
-
+        cardDroppedOn(sourceCard, targetStack1.peek());
     }
 
     public void cardDropOnTargetStack3(Card sourceCard) {
         LOGGER.info("Card dropped on target stack 3: " + sourceCard);
-
+        cardDroppedOn(sourceCard, targetStack1.peek());
     }
 
     public void cardDropOnTargetStack4(Card sourceCard) {
         LOGGER.info("Card dropped on target stack 4: " + sourceCard);
+        cardDroppedOn(sourceCard, targetStack1.peek());
     }
 
     public void talonClicked() {
+        saveState();
         LOGGER.info("Talon clicked");
 
         if (talon.isEmpty()) {
