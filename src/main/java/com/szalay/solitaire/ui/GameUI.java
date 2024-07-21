@@ -58,6 +58,7 @@ public class GameUI implements GameObserver {
             final Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle(TextUtil.getText("finishedTitle"));
             alert.setContentText(TextUtil.getText("youWon"));
+            alert.showAndWait();
         }
     }
 
