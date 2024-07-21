@@ -14,10 +14,10 @@ import javafx.scene.layout.VBox;
 
 final class CardStack extends VBox {
 
-    CardStack(Stack<Card> cards, Game game, int targetStackNumber, boolean isTalon) {
+    CardStack(Stack<Card> cards, Game game, CardStackType type) {
         super();
 
-        if (isTalon) {
+        if (type == CardStackType.TALON) {
             final Image talonImage = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/back.gif")));
             final ImageView talonImageComponent = new ImageView(talonImage);
             talonImageComponent.setOnMouseClicked(event -> game.talonClicked());
@@ -26,7 +26,7 @@ final class CardStack extends VBox {
         }
 
         if (cards.isEmpty()) {
-            if (targetStackNumber == -1) {
+            if (!type.isTarget()) {
                 getChildren().add(new Label());
                 return;
             }
@@ -53,16 +53,16 @@ final class CardStack extends VBox {
                     return;
                 }
 
-                if (targetStackNumber == 1) {
+                if (type == CardStackType.TARGET_1) {
                     game.cardDropOnTargetStack1(sourceCard);
                 }
-                if (targetStackNumber == 2) {
+                if (type == CardStackType.TARGET_2) {
                     game.cardDropOnTargetStack2(sourceCard);
                 }
-                if (targetStackNumber == 3) {
+                if (type == CardStackType.TARGET_3) {
                     game.cardDropOnTargetStack3(sourceCard);
                 }
-                if (targetStackNumber == 4) {
+                if (type == CardStackType.TARGET_4) {
                     game.cardDropOnTargetStack4(sourceCard);
                 }
 
@@ -74,11 +74,11 @@ final class CardStack extends VBox {
         }
 
         final Card last = cards.peek();
-        if (targetStackNumber < 1) {
+        if (!type.isTarget()) {
             for (final Card card : cards) {
                 final boolean isLast = card == last;
                 if (!card.isHidden()) {
-                    getChildren().add(new CardComponent(card, game, targetStackNumber == -1, isLast));
+                    getChildren().add(new CardComponent(card, game, false, isLast));
                 } else {
                     final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/hidden.gif")));
                     final ImageView hiddenImage = new ImageView(image);
