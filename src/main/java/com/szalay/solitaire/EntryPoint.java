@@ -28,6 +28,7 @@ public class EntryPoint extends Application {
         final Game game = new Game();
         final GameUI ui = new GameUI(root, game);
         game.addObserver(ui);
+        game.startGame();
 
         primaryStage.setScene(new Scene(root, 600, 800));
         primaryStage.show();
