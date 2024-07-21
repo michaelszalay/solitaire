@@ -3,6 +3,7 @@ package com.szalay.solitaire.ui;
 import com.szalay.solitaire.model.Game;
 import com.szalay.solitaire.model.GameObserver;
 import com.szalay.solitaire.util.TextUtil;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -30,8 +31,7 @@ public class GameUI implements GameObserver {
 
         if (!game.isStarted()) {
             content.getChildren().add(new Label(TextUtil.getText("gameNotStarted")));
-        }
-        else {
+        } else {
 
             final GridPane grid = new GridPane();
             grid.add(new CardStack(game.getTalon(), game, 0, true), 0, 0);
@@ -53,7 +53,14 @@ public class GameUI implements GameObserver {
 
             content.getChildren().add(grid);
         }
+
+        if (game.isFinished()) {
+            final Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(TextUtil.getText("finishedTitle"));
+            alert.setContentText(TextUtil.getText("youWon"));
+        }
     }
+
 
     Game getGame() {
         return game;

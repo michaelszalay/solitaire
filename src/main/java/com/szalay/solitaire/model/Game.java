@@ -36,12 +36,25 @@ public class Game {
     private final List<GameObserver> observers = new ArrayList<>();
 
     private boolean started = false;
+    private boolean finished = false;
 
     public void addObserver(final GameObserver observer) {
         this.observers.add(observer);
     }
 
     private void fireChange() {
+        boolean allNotHidden = true;
+        for (final Card c : allCards) {
+            if (c.isHidden()) {
+                allNotHidden = false;
+                break;
+            }
+        }
+
+        if (allNotHidden) {
+            finished = true;
+        }
+
         for (final GameObserver o : observers) {
             o.gameChanged();
         }
@@ -427,5 +440,9 @@ public class Game {
 
     public Stack<Card> getCurrentDrawn() {
         return currentDrawn;
+    }
+
+    public boolean isFinished() {
+        return finished;
     }
 }

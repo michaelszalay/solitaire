@@ -75,12 +75,14 @@ public class Card {
     public boolean canBeDroppedOn(Card cardFromStack, boolean inTargetStack) {
         if (inTargetStack) {
             if (color != cardFromStack.getColor()) {
-                return true;
+                return false;
             }
 
             if (type != cardFromStack.getType()) {
                 return false;
             }
+
+            return number.ordinal() == (cardFromStack.number.ordinal() + 1);
         }
         else {
             if (color == cardFromStack.getColor()) {

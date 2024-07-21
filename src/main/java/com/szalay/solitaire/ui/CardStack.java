@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.Stack;
 import com.szalay.solitaire.model.Card;
 import com.szalay.solitaire.model.Game;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DataFormat;
@@ -26,6 +27,7 @@ final class CardStack extends VBox {
 
         if (cards.isEmpty()) {
             if (targetStackNumber == -1) {
+                getChildren().add(new Label());
                 return;
             }
 
