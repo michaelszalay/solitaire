@@ -4,7 +4,6 @@ import java.util.Objects;
 import java.util.Stack;
 import com.szalay.solitaire.model.Card;
 import com.szalay.solitaire.model.Game;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DataFormat;
@@ -26,16 +25,8 @@ final class CardStack extends VBox {
         }
 
         if (cards.isEmpty()) {
-            final ImageView emptyStackComponent;
-            if (type.isTarget()) {
-                final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/back.gif")));
-                emptyStackComponent = new ImageView(image);
-            }
-            else {
-                final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/empty.png")));
-                emptyStackComponent = new ImageView(image);
-            }
-
+            final Image image = new Image(Objects.requireNonNull(CardComponent.class.getResourceAsStream("/cards/empty.png")));
+            final ImageView emptyStackComponent = new ImageView(image);
             emptyStackComponent.setOnDragOver(event -> {
                 if (event.getDragboard().hasString()) {
                     event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
